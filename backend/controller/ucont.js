@@ -9,10 +9,10 @@ let reg=async(req,res)=>{
 		let userId=uuidv4()
 		let data=new um({...req.body,"pwd":pwdhash,userId})
 		await data.save()
-		res.json({success:true,msg:"Registration successful"})
+		res.json({success:true,msg:"Password Reset successful"})
 	}
 	catch{
-		res.json({success:false,msg:"Error in Register"})
+		res.json({success:false,msg:"Error in Reset Password"})
 	}
 }
 let login=async(req,res)=>{

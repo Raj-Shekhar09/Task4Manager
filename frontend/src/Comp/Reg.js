@@ -1,53 +1,81 @@
-import React, { useContext, useState } from 'react'
-import axios from "axios"
-import "./Reg.css"
-import { useNavigate } from 'react-router-dom'
-import Ct from './Ct'
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Ct from "./Ct";
 
 const Reg = () => {
-	let [data,setData]=useState({"task":"","desc":"","deadline":""})
-	let [msg,setMsg]=useState("")
+  const [data, setData] = useState({ task: "", desc: "", deadline: "" });
+  const [msg, setMsg] = useState("");
 
-	let obj=useContext(Ct)
-	let navigate=useNavigate()
+  const obj = useContext(Ct);
+  const navigate = useNavigate();
 
-	let fun=(e)=>{
-		setData({...data,[e.target.name]:e.target.value})
-	}
-	let add=()=>{
-		let finalData = { ...data, userId: obj.store.userId }
-		  axios.post("http://localhost:5000/addtask",finalData).then((res)=>{
-			  if("msg" in res.data){
-				  setMsg(res.data.msg)
-				  setData({"task":"","deadline":"","desc":""})
-				  navigate('/disp')
-			  }
-			  else{
-				  setMsg(res.data.err)
-			  }
-			  
-		  }).catch((err)=>{
-			  console.log(err)
-		  })
-	  }
-  
+  const fun = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const add = () => {
+    const finalData = { ...data, userId: obj.store.userId };
+    axios
+      .post("http://localhost:5000/addtask", finalData)
+      .then((res) => {
+        if ("msg" in res.data) {
+          setMsg(res.data.msg);
+          setData({ task: "", desc: "", deadline: "" });
+          navigate("/disp");
+        } else {
+          setMsg(res.data.err);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-	<div className='fcon'>
-		
-		<div className='form'>
-			<label>Task:</label>
-			<input type='text' placeholder='Task' name="task" onChange={fun} value={data.task}/>
-			<label>Description</label>
-			<input type='text' placeholder='Desc' name="desc" onChange={fun} value={data.desc}/>
-			<label>Deadline</label>
-			<input type='date' placeholder='deadline' name="deadline" onChange={fun} value={data.deadline}/>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 font-sans">
+      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md flex flex-col gap-4">
+        {msg && <p className="text-green-600 font-medium">{msg}</p>}
 
-			<button onClick={add}>ADD</button>
+        <label className="font-semibold">Task:</label>
+        <input
+          type="text"
+          placeholder="Task"
+          name="task"
+          onChange={fun}
+          value={data.task}
+          className="p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
 
-		</div>
+        <label className="font-semibold">Description:</label>
+        <input
+          type="text"
+          placeholder="Desc"
+          name="desc"
+          onChange={fun}
+          value={data.desc}
+          className="p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
 
-	</div>
-  )
-}
+        <label className="font-semibold">Deadline:</label>
+        <input
+          type="date"
+          placeholder="Deadline"
+          name="deadline"
+          onChange={fun}
+          value={data.deadline}
+          className="p-3 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
 
-export default Reg
+        <button
+          onClick={add}
+          className="p-3 bg-green-500 text-white rounded-md text-base font-medium hover:bg-green-600 transition-colors"
+        >
+          ADD
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Reg;

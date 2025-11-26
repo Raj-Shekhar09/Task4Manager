@@ -1,35 +1,36 @@
 import React, { useState } from 'react'
+import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom"
 import Disp from './Comp/Disp'
 import Reg from './Comp/Reg'
-import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom"
-import Login1 from './Comp/Login1'
 import Edit from './Comp/Edit'
 import Ct from './Comp/Ct'
-import Register from './Comp/Register'
 import Flipcard from './Comp/Flipcard'
+import Dashboard from './Comp/Dashboard'
+import Category from './Comp/Category111111111111111'
+import AddCategoryPage from './Comp/Products00' 
 
 const App = () => {
-	let [store,setStore]=useState({})
-
-	let updstore=(obj)=>{
-		setStore({...store,...obj})
-	}
-	let obj={"store":store,"updstore":updstore}
+  let [store,setStore]=useState({})
+  let updstore=(obj)=>{
+    setStore({...store,...obj})
+  }
+  let obj={"store":store,"updstore":updstore}
   return (
-	<BrowserRouter>
-	<Ct.Provider value={obj}>
-	<Routes>
-		<Route path="/" element={<Navigate to="/login1"/>}/>
-		<Route path="/*" element={<Flipcard/>}/>
-		{/* <Route path="/" element={<Login1/>}/> */}
-		<Route path="/disp" element={<Disp/>}/>
-		<Route path="/reg" element={<Reg/>}/>
-		<Route path="/edit" element={<Edit/>}/>
-		{/* <Route path="/register" element={<Register/>}/> */}
-	</Routes>
-	</Ct.Provider>
-	</BrowserRouter>
+    <BrowserRouter>
+      <Ct.Provider value={obj}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/auth" />} />
+          <Route path="/auth" element={<Flipcard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/disp" element={<Disp/>}/>
+          <Route path="/reg" element={<Reg/>}/>
+          <Route path="/edit" element={<Edit/>}/>
+          <Route path="/category" element={<Category />} />
+          <Route path="/add-category" element={<AddCategoryPage />} />
+          <Route path="*" element={<Navigate to="/auth" />} />
+        </Routes>
+      </Ct.Provider>
+    </BrowserRouter>
   )
 }
-
 export default App

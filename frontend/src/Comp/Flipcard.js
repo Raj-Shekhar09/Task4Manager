@@ -1,25 +1,44 @@
-import React, { useState } from 'react'
-import Register from './Register';
-import { Route,Routes,Navigate } from 'react-router-dom';
-import Login1 from './Login1';
-import "./Flipcard.css"
+import React, { useState } from "react";
+import Register from "./ResetPWD";
+import Login1 from "./Login1";
 
 const Flipcard = () => {
-    const [flip, setFlip] = useState(false);
+  const [flip, setFlip] = useState(false);
 
-    return (
-      <div className={`auth-container ${flip ? 'flipped' : ''}`}>
-        <div className="card">
-          <div className="front">
-            <Login1 onFlip={() => setFlip(true)} />
-          </div>
-          <div className="back">
-            <Register onFlip={() => setFlip(false)} />
-          </div>
+  return (
+    <div
+      className={`
+        relative w-[400px] h-[500px] mx-auto 
+        [perspective:1000px]
+      `}
+    >
+      <div
+        className={`
+          relative w-full h-full 
+          transition-transform duration-700 
+          [transform-style:preserve-3d]
+          ${flip ? "[transform:rotateY(180deg)]" : ""}
+        `}
+      >
+        <div
+          className={`
+            absolute inset-0 
+            [backface-visibility:hidden]
+          `}
+        >
+          <Login1 onFlip={() => setFlip(true)} />
         </div>
-    
-      </div>
-    );
-}
 
-export default Flipcard
+        <div
+          className={`
+            absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]
+          `}
+        >
+          <Register onFlip={() => setFlip(false)} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Flipcard;
